@@ -7,6 +7,12 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        required: false
+        description: デプロイ先の環境
 
 jobs:
   build:
