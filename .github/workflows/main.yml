@@ -16,8 +16,22 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        image:
+          - serve
+          - migrate
+        include:
+          - image: serve
+            context: .
+            target: app
+          - image: migrate
+            context: .
+            target: migration
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Hello world
         run: echo "Hello world"
+      - name: Build and push
+        run: echo "${{ matrix.image }}"
