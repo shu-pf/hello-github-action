@@ -35,3 +35,16 @@ jobs:
         run: echo "Hello world"
       - name: Build and push
         run: echo "${{ matrix.image }}${{ matrix.target }}"
+      - id: digest
+        run: echo '${{ matrix.image }}=${{ matrix.target }}' >> "${GITHUB_OUTPUT}"
+    outputs:
+      serve: ${{ steps.digest.outputs.serve }}
+      migrate: ${{ steps.digest.outputs.migrate }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Hello world
+        run: echo "${{ needs.build.outputs.serve }}${{ needs.build.outputs.migrate }}"
